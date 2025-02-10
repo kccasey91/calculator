@@ -1,0 +1,33 @@
+.calculator {
+    display: flex;
+    flex-direction: column; /* Stack elements properly */
+    height: 500px; /* Increased height */
+    width: 300px;
+    border: 2px solid black;
+}
+
+.display {
+    height: 5em;
+    width: 100%;
+    border: 2px solid red;
+}
+
+.input {
+    height: 3em;
+    width: 100%;
+    border: 2px solid blue;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1; /* Make it take up the remaining space */
+    width: 100%;
+    border: 2px solid green;
+}
+
+.button {
+    flex: 1 0 25%; /* 4 buttons per row */
+    aspect-ratio: 1/1;
+    max-width: 25%; /* Ensures they don't exceed container */
+}
