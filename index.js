@@ -1,19 +1,41 @@
-let num1, num2, operator;
-let inputArr = [];
-const operators = /[+\-*/%=&|<>!^~?:]/g; 
+function userInput(){
+    let num1, num2, op = '';
+    let inputArr = [];
+    const operators = /[+\-*/%&|<>!^~?:]/g; 
+    const outPut = document.querySelector('.output');
+    const inputBtns = document.querySelectorAll('.button');
 
-const input = document.querySelector('.input');
+    inputBtns.forEach(button => {
+        button.addEventListener('click', (event) =>{
+            let cpuInput = event.target.textContent;
+            if(cpuInput === 'CLEAR'){
+                inputArr = [];
+                outPut.textContent = '';
+                num1 = num2 = op = '';
+                return;
+            }
+            if(operators.test(cpuInput)){
+                op = cpuInput;
+                num1 = parseInt(inputArr.join(''));
+                outPut.textContent = `${num1} ${op}`;
+                inputArr = [];
+                console.log(num1);
+                console.log(op);
+                return;
+            }
+            if(cpuInput === '=' ){
+                num2 = parseInt(inputArr.join(''));
+                let result = operate(num1, num2, op);
+                inputArr = [];
+                cpuInput = result;
+                num1 = result;
+            }
+            inputArr.push(cpuInput);
+            outPut.textContent = inputArr.join('');
+        });
+    });
+};
 
-const digitBtns = document.querySelectorAll('.button');
-digitBtns.forEach(button => {
-    button.addEventListener('click', (event) =>{
-        inputArr.push(event.target.textContent);
-        input.textContent = inputArr.join('');
-        if(event.target.textContent == operators){
-            console.log(event.target.textContent);
-        }
-    })
-})
 
 
 function add(a, b){
@@ -39,3 +61,4 @@ function operate(a, b, op){
     if(op === '/') return divide(a, b);
 }
 
+userInput();
