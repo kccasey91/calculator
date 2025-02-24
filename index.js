@@ -1,40 +1,59 @@
-function userInput(){
-    let num1, num2, op = '';
+function userInput() {
+    let num1 = null;
+    let num2 = null;
+    let op = '';
     let inputArr = [];
     const operators = /[+\-*/%&|<>!^~?:]/g; 
     const outPut = document.querySelector('.output');
     const inputBtns = document.querySelectorAll('.button');
 
     inputBtns.forEach(button => {
-        button.addEventListener('click', (event) =>{
+        button.addEventListener('click', (event) => {
             let cpuInput = event.target.textContent;
-            if(cpuInput === 'CLEAR'){
+
+            if (cpuInput === 'CLEAR') {
                 inputArr = [];
                 outPut.textContent = '';
-                num1 = num2 = op = '';
+                num1 = num2 = null;
+                op = '';
                 return;
             }
-            if(operators.test(cpuInput)){
-                op = cpuInput;
-                num1 = parseInt(inputArr.join(''));
-                outPut.textContent = `${num1} ${op}`;
+
+            if (operators.test(cpuInput)) {
+                if (num1 === null) {  
+                    num1 = parseInt(inputArr.join(''));  
+                } else {
+                    num2 = parseInt(inputArr.join(''));
+                    if (!isNaN(num2)) { 
+                        let result = operate(num1, num2, op);
+                        num1 = result; // Store result as next num1
+                        outPut.textContent = result; 
+                    }
+                    num2 = null;
+                }
+
+                op = cpuInput;  
+                outPut.textContent = `${num1} ${op}`;  
                 inputArr = [];
-                console.log(num1);
-                console.log(op);
                 return;
             }
-            if(cpuInput === '=' ){
+
+            if (cpuInput === '=') {
                 num2 = parseInt(inputArr.join(''));
-                let result = operate(num1, num2, op);
+                if (!isNaN(num2)) {
+                    let result = operate(num1, num2, op);
+                    num1 = result;
+                    outPut.textContent = result; 
+                }
                 inputArr = [];
-                cpuInput = result;
-                num1 = result;
+                return;
             }
+
             inputArr.push(cpuInput);
             outPut.textContent = inputArr.join('');
         });
     });
-};
+}
 
 
 
